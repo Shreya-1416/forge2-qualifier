@@ -11,7 +11,7 @@ function App() {
   const [newCards, setNewCards] = useState({});
 
   const fetchBoards = () => {
-    fetch("http://127.0.0.1:8000/api/boards")
+    fetch("https://forge2-qualifier-shreya.onrender.com/api/boards")
       .then((res) => res.json())
       .then((data) => setBoards(data))
       .catch((err) => console.error(err));
@@ -27,7 +27,7 @@ function App() {
     if (!title || !title.trim()) return;
 
     try {
-      await fetch("http://127.0.0.1:8000/api/cards", {
+      await fetch("https://forge2-qualifier-shreya.onrender.com/api/cards", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ function App() {
   const deleteCard = async (cardId) => {
     try {
       await fetch(
-        `http://127.0.0.1:8000/api/cards/${cardId}`,
+        `https://forge2-qualifier-shreya.onrender.com/api/cards/${cardId}`,
         {
           method: "DELETE",
         }
@@ -123,7 +123,7 @@ function App() {
 
     try {
       await fetch(
-        `http://127.0.0.1:8000/api/cards/${cardId}`,
+        `https://forge2-qualifier-shreya.onrender.com/api/cards/${cardId}`,
         {
           method: "PUT",
           headers: {
