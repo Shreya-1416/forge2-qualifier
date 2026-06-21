@@ -77,17 +77,16 @@ class KanbanController extends Controller
         return response()->json($card);
     }
 
-    public function update(Request $request, $id)
-    {
-        $card = Card::findOrFail($id);
+   public function update(Request $request, $id)
+{
+    $card = Card::findOrFail($id);
 
-        $card->update([
-            'title' => $request->title,
-            'description' => $request->description
-        ]);
+    $card->update([
+        'board_list_id' => $request->board_list_id
+    ]);
 
-        return response()->json($card);
-    }
+    return response()->json($card);
+}
 
     public function destroy($id)
     {
