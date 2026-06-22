@@ -1,6 +1,6 @@
 {
-  "provider": "groq",
-  "model": "llama-3.3-70b-versatile",
-  "baseUrl": "https://api.groq.com/openai/v1",
-  "apiKey": "${GROQ_API_KEY}"
+  "provider": "openrouter",
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "baseUrl": "https://openrouter.ai/api/v1",
+  "apiKey": "${OPENROUTER_API_KEY}"
 }
