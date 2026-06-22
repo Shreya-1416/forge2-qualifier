@@ -2,10 +2,5 @@
   "provider": "openrouter",
   "model": "meta-llama/llama-3.3-70b-instruct",
   "baseUrl": "https://openrouter.ai/api/v1",
-<<<<<<< HEAD
   "apiKey": "${OPENROUTER_API_KEY}"
 }
-=======
-  "apiKey": "${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}"
-}
->>>>>>> 0bed1a1 (Update OpenClaw config to OpenRouter)
