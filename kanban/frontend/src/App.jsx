@@ -690,7 +690,7 @@ export default function App() {
                       onKeyDown={e => e.key === "Enter" && addCard(col.id)}
                       placeholder="+ Add a new task..."
                       style={{
-                        width: "100%",
+                        
                         padding: "14px 16px",
                         borderRadius: 14,
                         background: "rgba(255,255,255,.03)",
