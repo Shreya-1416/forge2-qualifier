@@ -439,11 +439,22 @@ const currentBoard = boards.find(
 };
 
   const deleteCard = (colId, cardId) => {
-    setCards(prev => ({
-      ...prev,
-      [colId]: prev[colId].filter(c => c.id !== cardId),
-    }));
-  };
+  setBoards(prev =>
+    prev.map(board => {
+      if (board.id !== selectedBoard) return board;
+
+      return {
+        ...board,
+        cards: {
+          ...board.cards,
+          [colId]: board.cards[colId].filter(
+            card => card.id !== cardId
+          )
+        }
+      };
+    })
+  );
+};
 
   const saveEdit = (updated) => {
   setBoards(prev =>
@@ -478,14 +489,33 @@ const currentBoard = boards.find(
   // Drag & drop
   const handleDragStart = (card, fromCol) => setDragCard({ card, fromCol });
   const handleDrop = (toCol) => {
-    if (!dragCard || dragCard.fromCol === toCol) return;
-    setCards(prev => ({
-      ...prev,
-      [dragCard.fromCol]: prev[dragCard.fromCol].filter(c => c.id !== dragCard.card.id),
-      [toCol]: [...prev[toCol], dragCard.card],
-    }));
-    setDragCard(null);
-  };
+  if (!dragCard || dragCard.fromCol === toCol) return;
+
+  setBoards(prev =>
+    prev.map(board => {
+      if (board.id !== selectedBoard) return board;
+
+      return {
+        ...board,
+        cards: {
+          ...board.cards,
+
+          [dragCard.fromCol]:
+            board.cards[dragCard.fromCol].filter(
+              c => c.id !== dragCard.card.id
+            ),
+
+          [toCol]: [
+            ...board.cards[toCol],
+            dragCard.card
+          ]
+        }
+      };
+    })
+  );
+
+  setDragCard(null);
+};
 
   return (
     <div
