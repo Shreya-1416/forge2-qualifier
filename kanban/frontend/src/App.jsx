@@ -192,7 +192,7 @@ function Card({ card, col, onDelete, onEdit }) {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 13 }}>
           <CalIcon color={card.overdue ? "#f59e0b" : "#4ade80"} />
-          <span style={{ color: card.overdue ? "#f59e0b" : "#4ade80", fontWeight: 500 }}>{card.due}</span>
+          <span style={{ color: card.overdue ? "#f59e0b" : "#4ade80", fontWeight: 500 }}>{card.due || "No due date"}</span>
         </div>
       </div>
 
@@ -295,11 +295,11 @@ function EditModal({ card, onSave, onClose }) {
           style={{ ...inputStyle, minHeight: 100, resize: "vertical" }}
         />
         <input
-          value={due}
-          onChange={e => setDue(e.target.value)}
-          placeholder="Due date (e.g. Jun 30, 2026)"
-          style={inputStyle}
-        />
+  type="date"
+  value={due}
+  onChange={e => setDue(e.target.value)}
+  style={inputStyle}
+/>
 
         <div style={{ display: "flex", gap: 12, marginTop: 4 }}>
           <button
@@ -384,35 +384,59 @@ const addBoard = () => {
 };
 
 const [selectedBoard, setSelectedBoard] = useState(1);
+const currentBoard = boards.find(
+  board => board.id === selectedBoard
+);
 
-  const totalTasks = Object.values(cards).flat().length;
-  const completed = cards.done.length;
+  const totalTasks = Object.values(
+    currentBoard?.cards || {}
+  ).flat().length;
+  const completed =
+  currentBoard?.cards.done.length || 0;
   const totalLists = COLUMNS.length;
-  const overdue = Object.values(cards)
+  const overdue = Object.values(
+  currentBoard?.cards || {}
+)
     .flat()
     .filter(c => c.overdue).length;
 
   const addCard = (colId) => {
-    const val = inputs[colId].trim();
-    if (!val) return;
-    const col = COLUMNS.find(c => c.id === colId);
-    setCards(prev => ({
-      ...prev,
-      [colId]: [
-        ...prev[colId],
-        {
-          id: nextId++,
-          title: val,
-          tag: col.title,
-          desc: "",
-          assignee: "Shreya",
-          due: "TBD",
-          overdue: false,
-        },
-      ],
-    }));
-    setInputs(prev => ({ ...prev, [colId]: "" }));
-  };
+  const val = inputs[colId].trim();
+
+  if (!val) return;
+
+  const col = COLUMNS.find(c => c.id === colId);
+
+  setBoards(prev =>
+    prev.map(board => {
+      if (board.id !== selectedBoard) return board;
+
+      return {
+        ...board,
+        cards: {
+          ...board.cards,
+          [colId]: [
+            ...board.cards[colId],
+            {
+              id: nextId++,
+              title: val,
+              tag: col.title,
+              desc: "",
+              assignee: "Shreya",
+              due: "",
+              overdue: false,
+            }
+          ]
+        }
+      };
+    })
+  );
+
+  setInputs(prev => ({
+    ...prev,
+    [colId]: ""
+  }));
+};
 
   const deleteCard = (colId, cardId) => {
     setCards(prev => ({
@@ -422,15 +446,27 @@ const [selectedBoard, setSelectedBoard] = useState(1);
   };
 
   const saveEdit = (updated) => {
-    setCards(prev => {
-      const next = {};
-      for (const k of Object.keys(prev)) {
-        next[k] = prev[k].map(c => (c.id === updated.id ? updated : c));
-      }
-      return next;
-    });
-    setEditCard(null);
-  };
+  setBoards(prev =>
+    prev.map(board => {
+      if (board.id !== selectedBoard) return board;
+
+      const updatedCards = {};
+
+      Object.keys(board.cards).forEach(colId => {
+        updatedCards[colId] = board.cards[colId].map(card =>
+          card.id === updated.id ? updated : card
+        );
+      });
+
+      return {
+        ...board,
+        cards: updatedCards
+      };
+    })
+  );
+
+  setEditCard(null);
+};
 
   const filterCards = (list) =>
     list.filter(
@@ -627,7 +663,9 @@ onClick={addBoard}  style={{
           }}
         >
           {COLUMNS.map(col => {
-            const colCards = filterCards(cards[col.id]);
+            const colCards = filterCards(
+              currentBoard?.cards[col.id] || []
+            );
             return (
               <div
                 key={col.id}
