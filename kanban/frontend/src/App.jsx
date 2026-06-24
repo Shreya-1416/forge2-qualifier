@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import "./App.css";
 
 // ── Icons (inline SVG helpers) ──────────────────────────────────────────────
 const GridIcon = () => (
@@ -76,6 +77,8 @@ const HeartIcon = () => (
     <path d="M12 21C12 21 3 14 3 8.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9 2.5C21 14 12 21 12 21z" />
   </svg>
 );
+
+
 
 // ── Column config ──────────────────────────────────────────────────────────
 const COLUMNS = [
@@ -495,25 +498,26 @@ export default function App() {
         </div>
 
         <button
-          style={{
-            background: "linear-gradient(90deg,#7c3aed,#6d28d9)",
-            border: "none",
-            color: "white",
-            padding: "13px 24px",
-            borderRadius: 14,
-            fontWeight: 700,
-            fontSize: 15,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            transition: "transform .15s",
-          }}
-          onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
-          onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
-        >
-          + Add New Board
-        </button>
+  onClick={() => alert("Add Board Feature Coming Soon")}
+  style={{
+    background: "linear-gradient(90deg,#7c3aed,#6d28d9)",
+    border: "none",
+    color: "white",
+    padding: "13px 24px",
+    borderRadius: 14,
+    fontWeight: 700,
+    fontSize: 15,
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    transition: "transform .15s",
+  }}
+  onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
+  onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
+>
+  + Add New Board
+</button>
       </div>
 
       <div style={{ maxWidth: 1400, margin: "0 auto" }}>
