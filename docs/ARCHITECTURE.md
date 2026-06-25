@@ -5,50 +5,50 @@
 The Forge 2 Kanban Board is a full-stack web application built with Laravel 13 (backend) and React 19 (frontend). It implements a Trello-style project management interface with a three-tier data hierarchy: **Board → List → Card**.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                     React Frontend                       │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  App.jsx (Single-file SPA)                       │    │
-│  │  - Board selector (multi-board support)          │    │
-│  │  - 3-column layout (To Do / Doing / Done)        │    │
-│  │  - Card creation, editing, deletion              │    │
-│  │  - HTML5 drag-and-drop between columns            │    │
-│  │  - Search, stats dashboard                       │    │
-│  └─────────────────────────────────────────────────┘    │
-│                          │                               │
-│              Vite Proxy (/api → :8000)                   │
-└──────────────────────────┼───────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│                     React Frontend                    │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  App.jsx (Single-file SPA)                      │  │
+│  │  - Board selector (multi-board support)         │  │
+│  │  - 3-column layout (To Do / Doing / Done)       │  │
+│  │  - Card creation, editing, deletion             │  │
+│  │  - HTML5 drag-and-drop between columns          │  │
+│  │  - Search, stats dashboard                      │  │
+│  └─────────────────────────────────────────────────┘  │
+│                          │                            │
+│              Vite Proxy (/api → :8000)                │
+└──────────────────────────┼────────────────────────────┘
                            │
-┌──────────────────────────▼───────────────────────────────┐
-│                   Laravel Backend                         │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  KanbanController                                │    │
-│  │  - index()    : Board::with('lists.cards')       │    │
-│  │  - storeBoard() : Create board + default lists   │    │
-│  │  - store()    : Create card (validated)          │    │
-│  │  - update()   : Update card (validated)          │    │
-│  │  - destroy()  : Delete card                      │    │
-│  │  - move()     : Move card to different list      │    │
-│  │  - updateBoard() : Rename board                  │    │
-│  │  - destroyBoard() : Cascade delete board         │    │
-│  └─────────────────────────────────────────────────┘    │
-│                          │                               │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  Eloquent Models                                 │    │
-│  │  Board ──→ BoardList ──→ Card                    │    │
-│  │  (HasMany)  (HasMany)    (BelongsTo)             │    │
-│  └─────────────────────────────────────────────────┘    │
-└──────────────────────────┼───────────────────────────────┘
+┌──────────────────────────▼─────────────────────────────┐
+│                   Laravel Backend                      │
+│  ┌─────────────────────────────────────────────────┐   │
+│  │  KanbanController                               │   │
+│  │  - index()    : Board::with('lists.cards')      │   │
+│  │  - storeBoard() : Create board + default lists  │   │
+│  │  - store()    : Create card (validated)         │   │
+│  │  - update()   : Update card (validated)         │   │
+│  │  - destroy()  : Delete card                     │   │
+│  │  - move()     : Move card to different list     │   │
+│  │  - updateBoard() : Rename board                 │   │
+│  │  - destroyBoard() : Cascade delete board        │   │
+│  └─────────────────────────────────────────────────┘   │
+│                          │                             │
+│  ┌─────────────────────────────────────────────────┐   │
+│  │  Eloquent Models                                │   │
+│  │  Board ──→ BoardList ──→ Card                   │   │
+│  │  (HasMany)  (HasMany)    (BelongsTo)            │   │
+│  └─────────────────────────────────────────────────┘   │
+└──────────────────────────┼─────────────────────────────┘
                            │
-┌──────────────────────────▼───────────────────────────────┐
-│                     SQLite Database                       │
+┌──────────────────────────▼─────────────────────────────┐
+│                     SQLite Database                    │
 │  ┌──────────┐    ┌─────────────┐    ┌──────────────┐   │
-│  │  boards   │───→│ board_lists  │───→│    cards      │   │
-│  │  id, name │    │ id, board_id │    │ id, board_   │   │
-│  │           │    │ name, pos    │    │ list_id,     │   │
-│  │           │    │              │    │ title, etc   │   │
+│  │  boards  │───→│ board_lists │───→│    cards     │   │
+│  │  id, name│    │ id, board_id│    │ id, board_   │   │
+│  │          │    │ name, pos   │    │ list_id,     │   │
+│  │          │    │             │    │ title, etc   │   │
 │  └──────────┘    └─────────────┘    └──────────────┘   │
-└─────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────┘
 ```
 
 ---
